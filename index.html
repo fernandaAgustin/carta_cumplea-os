@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎂 Tarjeta de Cumpleaños Snoopy</title>
-
-    <!-- Google Fonts para texto formal -->
+    <title>Tarjeta de Cumpleaños para Abipinguin</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet" />
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
@@ -212,8 +209,6 @@
                 float: none;
             }
         }
-
-        /* Animaciones del modal */
         @keyframes modalZoom {
             0% {
                 transform: scale(0.5);
@@ -253,7 +248,6 @@
             }
         }
 
-        /* Modal */
         #miModal {
             display: none;
             position: fixed;
@@ -278,7 +272,6 @@
             animation: modalZoom 0.7s ease;
         }
 
-        /* Confeti dentro del modal */
         .confeti-container {
             position: absolute;
             top: 0;
@@ -335,20 +328,132 @@
         <div class="serpentinas" id="serpentinas"></div>
     </div>
 
-    <div id="carta" class="carta">
-        <h2>💖 Carta Especial 💖</h2>
-        <p>Querido amigo, hoy es un día lleno de alegría y sorpresas. 🎉
-            Espero que disfrutes cada momento y que todos tus deseos se hagan realidad.</p>
-        <p>Que la risa, el amor y los abrazos llenen tu corazón en este cumpleaños y siempre. 🥰</p>
+    <div id="carta" class="carta animada">
+    <h2> 🎉 Feliz Cumpleaños 🎉 </h2>
+    <p class="fade-in delay-1">
+        Abiiiiiiii <3 hoy es un dia especial para ti <br/>
+        Espero que disfrutes este dia  y que todos tus deseos se cumplan.
+    </p>
+    <p class="fade-in delay-2">
+    que estes rodeada de gente que te aprecia.
+    </p>
+    <div class="imagenes-carta fade-in delay-3">
         <img src="img/img1.png" alt="Foto 1" />
         <img src="img/img3.png" alt="Foto 2" />
-        <p>Gracias por ser una persona tan especial. ¡Disfruta mucho tu día! 🎈🎁</p>
     </div>
+    <p class="fade-in delay-4">
+        Gracias por ser una persona tan especial. <strong>¡Disfruta mucho tu día! 🎁 <br> TQM... ATT:Fer :) </strong>
+    </p>
+</div>
+
+<style>
+    /* Carta base */
+    #carta {
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 30px;
+        background: linear-gradient(135deg, #fceabb, #a36fdf);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(178, 107, 216, 0.5);
+        font-family: 'Playfair Display', serif;
+        color: #060606;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #carta h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 5px rgba(255 255 255 / 0.8);
+        animation: bounceIn 1s ease forwards;
+    }
+
+    #carta p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    /* Imagenes en fila con espacio y bordes redondeados */
+    .imagenes-carta {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .imagenes-carta img {
+        width: 45%;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        transition: transform 0.4s ease;
+        cursor: pointer;
+    }
+
+    .imagenes-carta img:hover {
+        transform: scale(1.05) rotate(3deg);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    /* Animaciones */
+    @keyframes bounceIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-100%) scale(0.7);
+        }
+        60% {
+            opacity: 1;
+            transform: translateY(10%) scale(1.05);
+        }
+        80% {
+            transform: translateY(-5%) scale(0.95);
+        }
+        100% {
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Fade in con delays */
+    .fade-in {
+        opacity: 0;
+        animation: fadeInUp 1s forwards;
+    }
+
+    .delay-1 {
+        animation-delay: 0.5s;
+    }
+
+    .delay-2 {
+        animation-delay: 1.2s;
+    }
+
+    .delay-3 {
+        animation-delay: 1.9s;
+    }
+
+    .delay-4 {
+        animation-delay: 2.6s;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+
 
     <audio id="musica" src="img/snoopy.mp3" loop></audio>
 
     <script>
-        const fechaCumple = new Date("2025-09-21T00:00:00").getTime();
+        const fechaCumple = new Date("2025-09-20T00:00:00").getTime();
 
         function actualizarContador() {
             const ahora = new Date().getTime();
