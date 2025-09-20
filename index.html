@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎂 Tarjeta de Cumpleaños Snoopy</title>
+
+    <!-- Google Fonts para texto formal -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background 1s;
+        }
+
+        .contenedor-principal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 20px;
+        }
+
+        .mensaje-especial {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 15px;
+            animation: salto-letras 1s infinite;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        @keyframes salto-letras {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .contador {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            background: #fff;
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 15px auto;
+            max-width: 500px;
+        }
+
+        .contador-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.2rem;
+            min-width: 70px;
+        }
+
+        .contador-item i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: black;
+        }
+
+        #cumple {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .globos,
+        .serpentinas {
+            position: fixed;
+            top: 100%;
+            width: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .globo,
+        .serpentina {
+            position: absolute;
+            width: 50px;
+            animation: subir 6s linear infinite;
+        }
+
+        .serpentina {
+            width: 8px;
+            height: 80px;
+            background: linear-gradient(to bottom, #f7a, #4af);
+            border-radius: 10px;
+            animation: girar 4s linear infinite;
+        }
+
+        @keyframes subir {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes girar {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 20px;
+            background: #a88ff0;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background: #7b5ed1;
+            transform: scale(1.05);
+        }
+
+        .carta {
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 25px;
+            background: #fff;
+            color: #000;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            display: none;
+        }
+
+        .carta img {
+            width: 48%;
+            margin: 1%;
+            border-radius: 10px;
+            float: left;
+        }
+
+        .carta h2 {
+            text-align: center;
+        }
+
+        .carta p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 10px 0;
+            clear: both;
+        }
+
+        @media(max-width:600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .contador {
+                padding: 10px 15px;
+                gap: 10px;
+            }
+
+            .contador-item {
+                font-size: 1rem;
+                min-width: 60px;
+            }
+
+            .carta img {
+                width: 100%;
+                margin: 5px 0;
+                float: none;
+            }
+        }
+
+        /* Animaciones del modal */
+        @keyframes modalZoom {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes modalRotate {
+            0% {
+                transform: rotate(-180deg) scale(0.2);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Modal */
+        #miModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #modalContenido {
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 350px;
+            text-align: center;
+            position: relative;
+            animation: modalZoom 0.7s ease;
+        }
+
+        /* Confeti dentro del modal */
+        .confeti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .confeti {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url("img/confeti.png") no-repeat center/contain;
+            animation: caerConfeti linear forwards;
+        }
+
+        @keyframes caerConfeti {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor-principal" id="inicio">
+        <div class="mensaje-especial">
+            ¡Se aproxima un día especial...!
+        </div>
+        <img src="img/img2.png" alt="Snoopy Fiesta" width="250" />
+        <div class="mensaje-especial">
+            ¡Cuenta regresiva para tu cumpleaños!
+        </div>
+        <div id="contador" class="contador"></div>
+    </div>
+
+    <div id="cumple">
+        <img id="snoopyCumple" src="img/snoopy.gif" alt="Snoopy Fiesta" width="250" />
+        <button id="abrirCarta" onclick="mostrarCarta()">Abre aquí 💌</button>
+        <p id="mensajeBoton" style="color:#fff; font-family: 'Comic Sans MS', cursive;"></p>
+        <button id="botonAceptar" style="display:none; background:#28a745;" onclick="mostrarCartaFinal()">Aceptar
+            ✅</button>
+        <div class="globos" id="globos"></div>
+        <div class="serpentinas" id="serpentinas"></div>
+    </div>
+
+    <div id="carta" class="carta">
+        <h2>💖 Carta Especial 💖</h2>
+        <p>Querido amigo, hoy es un día lleno de alegría y sorpresas. 🎉
+            Espero que disfrutes cada momento y que todos tus deseos se hagan realidad.</p>
+        <p>Que la risa, el amor y los abrazos llenen tu corazón en este cumpleaños y siempre. 🥰</p>
+        <img src="img/img1.png" alt="Foto 1" />
+        <img src="img/img3.png" alt="Foto 2" />
+        <p>Gracias por ser una persona tan especial. ¡Disfruta mucho tu día! 🎈🎁</p>
+    </div>
+
+    <audio id="musica" src="img/snoopy.mp3" loop></audio>
+
+    <script>
+        const fechaCumple = new Date("2025-09-21T00:00:00").getTime();
+
+        function actualizarContador() {
+            const ahora = new Date().getTime();
+            const diff = fechaCumple - ahora;
+
+            if (diff > 0) {
+                const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById("contador").innerHTML = `
+        <div class="contador-item"><i class="fa-solid fa-calendar-days fa-bounce"></i>${dias}d</div>
+        <div class="contador-item"><i class="fa-solid fa-clock fa-bounce"></i>${horas}h</div>
+        <div class="contador-item"><i class="fa-solid fa-hourglass-start fa-bounce"></i>${minutos}m</div>
+        <div class="contador-item"><i class="fa-solid fa-stopwatch-20 fa-bounce"></i>${segundos}s</div>
+      `;
+            } else {
+                document.getElementById("inicio").style.display = "none";
+                document.body.style.background = "#fff";
+                document.body.style.color = "#000";
+                document.getElementById("cumple").style.display = "flex";
+                lanzarGlobos();
+                lanzarSerpentinas();
+                document.getElementById("musica").play().catch(() => { });
+                clearInterval(intervalo);
+            }
+        }
+
+        let intervalo = setInterval(actualizarContador, 1000);
+        actualizarContador();
+
+        function lanzarGlobos() {
+            const contenedor = document.getElementById("globos");
+            for (let i = 0; i < 15; i++) {
+                let globo = document.createElement("img");
+                globo.src = "img/confeti.png";
+                globo.classList.add("globo");
+                globo.style.left = Math.random() * 90 + "vw";
+                globo.style.animationDuration = (4 + Math.random() * 4) + "s";
+                contenedor.appendChild(globo);
+            }
+        }
+
+        function lanzarSerpentinas() {
+            const contenedor = document.getElementById("serpentinas");
+            for (let i = 0; i < 20; i++) {
+                let serp = document.createElement("div");
+                serp.classList.add("serpentina");
+                serp.style.left = Math.random() * 90 + "vw";
+                serp.style.animationDuration = (3 + Math.random() * 3) + "s";
+                contenedor.appendChild(serp);
+            }
+        }
+
+        let contadorClicks = 0;
+
+        const mensajes = [
+            {
+                texto: `<i class="fa-solid fa-gift" style="color:#f4a261;"></i> ¿Estás segura de querer abrir tu sorpresa?`,
+                imagen: "img/chilly-willy.gif"
+            },
+            {
+                texto: `<i class="fa-solid fa-user-secret" style="color:#264653;"></i> Hmm... algo me dice que estás demasiado curiosa.`,
+                imagen: "img/verde.gif"
+            },
+            {
+                texto: `<i class="fa-solid fa-eye-slash" style="color:#6d6875;"></i> ¡No veas! ¡Es secreto!`,
+                imagen: "img/volar.gif"
+            },
+            {
+                texto: `<i class="fa-solid fa-hourglass-half" style="color:#2a9d8f;"></i> Tal vez deberías esperar un poco más...`,
+                imagen: "img/chilly-willy-dizzy.gif"
+            },
+            {
+                texto: `<i class="fa-solid fa-circle-exclamation" style="color:#e76f51;"></i> ¡Última oportunidad! ¿Segura que quieres continuar?`,
+                imagen: "img/espera.gif"
+            }
+        ];
+
+
+        function mostrarCarta() {
+            contadorClicks++;
+
+            const boton = document.getElementById("abrirCarta");
+
+            if (contadorClicks <= mensajes.length) {
+                const maxLeft = window.innerWidth - boton.offsetWidth;
+                const maxTop = window.innerHeight - boton.offsetHeight;
+                boton.style.position = "absolute";
+                boton.style.left = Math.random() * maxLeft + "px";
+                boton.style.top = Math.random() * maxTop + "px";
+
+                const mensaje = mensajes[contadorClicks - 1];
+                mostrarModal(mensaje.texto, mensaje.imagen);
+            } else {
+                mostrarModal(`
+  <strong><i class="fa-solid fa-heart-circle-bolt" style="color:#e63946;"></i> ¡Está bien!</strong><br>
+  <i class="fa-solid fa-envelope-open-text" style="color:#7b5ed1;"></i> Ahora sí te revelaré tu sorpresa especial.<br>
+  <i class="fa-solid fa-gift" style="color:#f4a261;"></i> Prepárate para algo con mucho cariño...`,
+                    "img/snoopy-final.gif", true);
+
+                boton.style.display = "none";
+            }
+        }
+
+        function mostrarModal(texto, imagenUrl, mostrarCartaFinal = false) {
+            const modal = document.getElementById("miModal");
+            const modalTexto = document.getElementById("modalTexto");
+            const modalImg = document.getElementById("modalImagen");
+            const modalContenido = document.getElementById("modalContenido");
+
+            const animaciones = ["modalZoom", "modalRotate", "modalBounce"];
+            const animacion = animaciones[Math.floor(Math.random() * animaciones.length)];
+            modalContenido.style.animation = animacion + " 0.7s ease";
+
+            modal.style.display = "flex";
+            modalTexto.innerHTML = texto;
+            modalImg.src = imagenUrl || "";
+            modalImg.style.display = imagenUrl ? "block" : "none";
+
+            lanzarConfeti();
+
+            setTimeout(() => {
+                modal.style.display = "none";
+
+                if (mostrarCartaFinal) {
+                    document.getElementById("cumple").style.display = "none";
+                    document.getElementById("carta").style.display = "block";
+                }
+            }, 3000);
+        }
+
+        function lanzarConfeti() {
+            const confetiContainer = document.getElementById("confetiContainer");
+            confetiContainer.innerHTML = "";
+            for (let i = 0; i < 20; i++) {
+                const confeti = document.createElement("div");
+                confeti.classList.add("confeti");
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDuration = (2 + Math.random() * 2) + "s";
+                confetiContainer.appendChild(confeti);
+            }
+        }
+    </script>
+
+    <!-- MODAL -->
+    <div id="miModal">
+        <div id="modalContenido">
+            <div class="confeti-container" id="confetiContainer"></div>
+            <img id="modalImagen" src="" alt="imagen"
+                style="max-width:100%; border-radius:10px; display:none; margin-bottom:10px;">
+            <p id="modalTexto" style="font-size:1.1rem; margin-bottom:15px;"></p>
+        </div>
+    </div>
+
+</body>
+
+</html>
